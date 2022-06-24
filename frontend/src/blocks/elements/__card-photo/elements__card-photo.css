@@ -1,0 +1,8 @@
+.elements__card-photo {
+    width: 282px;
+    height: 282px;
+    margin: 0;
+    object-fit: fill;
+    border-radius: 10px 10px 0 0;
+    cursor: pointer;
+}

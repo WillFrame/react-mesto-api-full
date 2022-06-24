@@ -1,0 +1,9 @@
+.popup__view-image-title {
+    position: absolute;
+    left: 0;
+    bottom: -25px;
+    font-size: 12px;
+    line-height: 15px;
+    font-style: normal;
+    font-weight: normal;
+}
