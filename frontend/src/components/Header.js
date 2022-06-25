@@ -1,7 +1,7 @@
 import React from 'react';
 import {  useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-// Временно заменил все Link в проекте на <a> т.к у меня по какой-то причине не работает react-router, ссылки меняются, но реакт не перезагружает страницу
+
 import Logo from '../images/logo.svg';
 
 function Header(props) {
