@@ -18,7 +18,21 @@ const regex = require('./utils/regex');
 const { PORT = 3000 } = process.env;
 const app = express();
 
-app.use(cors);
+// const ALLOWED_LIST = [
+//   'http://mesto.willframe.nomoredomains.xyz',
+//   'https://mesto.willframe.nomoredomains.xyz',
+//   'http://localhost:3000',
+// ]
+
+// app.use(cors((req, callback) => {
+//   if (ALLOWED_LIST.indexOf(req.header('Origin')) !== -1) {
+//     callback(null, true)
+//     return;
+//   }
+//   callback(null, false);
+// }));
+
+app.use(cors());
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
