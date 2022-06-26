@@ -3,8 +3,8 @@ import CurrentUserContext from "../context/CurrentUserContext";
 
 function Card(props) {
     const currentUser = React.useContext(CurrentUserContext);
-    const isOwn = props.card.owner._id === currentUser._id;
-    const isLiked = props.card.likes.some(i => i._id === currentUser._id);
+    const isOwn = props.card.owner === currentUser._id;
+    const isLiked = props.card.likes.some(i => i === currentUser._id);
 
     const cardLikeButtonClassName = (
         `elements__card-heart ${isLiked ? 'elements__card-heart_active' : ''}`
@@ -29,7 +29,7 @@ function Card(props) {
     return(
         <div className="elements__card">
             <button className={cardDeleteButtonClassName} type="button" onClick={handleDeleteClick}></button>
-            <img className="elements__card-photo" src={props.card.link} onClick={handleClick} />
+            <img className="elements__card-photo" src={props.card.link} alt={props.card.name} onClick={handleClick} />
             <div className="elements__card-info">
                 <h2 className="elements__card-title">{props.card.name}</h2>
                 <div className="elements__like-container">

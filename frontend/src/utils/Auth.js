@@ -1,4 +1,4 @@
-export const BASE_URL = "https://api.mesto.willframe.nomoredomains.xyz";
+const BASE_URL = "https://api.mesto.willframe.nomoredomains.xyz";
 
 function checkResponse(res) {
     return res.ok ? res.json() : Promise.reject(res.status);

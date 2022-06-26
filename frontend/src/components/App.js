@@ -32,11 +32,12 @@ function App() {
     const navigate = useNavigate();
 
     function handleCardLike(card) {
-        const isLiked = card.likes.some(i => i._id === currentUser._id);
+        const isLiked = card.likes.some(i => i === currentUser._id);
 
         api.changeLikeCardStatus(card._id, !isLiked)
             .then((newCard) => {
-                setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+                const newCards = cards.data.map((c) => (c._id === card._id ? newCard.data : c));
+                setCards({ data: newCards });
             })
             .catch(err => console.log(err));
     }
@@ -44,7 +45,8 @@ function App() {
     function handleCardDelete(card) {
         api.deleteCard(card._id)
             .then(() => {
-                setCards((state) => state.filter((c) => c._id !== card._id))
+                const newCards = cards.data.filter((c) => c._id !== card._id)
+                setCards({data: newCards})
             })
             .catch(err => console.log(err));
     }
@@ -64,7 +66,7 @@ function App() {
     function handleUpdateUser(data) {
         api.editProfile(data.name, data.about)
             .then(data => {
-                setCurrentUser(data);
+                setCurrentUser(data.data);
                 closeAllPopups();
             })
             .catch(err => console.log(err));
@@ -73,7 +75,7 @@ function App() {
     function handleUpdateAvatar(data) {
         api.editAvatar(data.avatar)
             .then(data => {
-                setCurrentUser(data);
+                setCurrentUser(data.data);
                 closeAllPopups();
             })
             .catch(err => console.log(err));
@@ -82,7 +84,7 @@ function App() {
     function handleAddPlace(data) {
         api.addCard(data.name, data.link)
             .then(newCard => {
-                setCards([newCard, ...cards]);
+                setCards({data: [newCard.data, ...cards.data]});
                 closeAllPopups();
             })
             .catch(err => console.log(err));
@@ -141,7 +143,7 @@ function App() {
         if (isLoggedIn) {
             api.getProfile()
             .then(res => {
-                setCurrentUser(res);
+                setCurrentUser(res.data);
             })
             .catch(err => console.log(err));
 
@@ -194,7 +196,7 @@ function App() {
                             onCardClick={handleCardClick}
                             onCardLike = {handleCardLike}
                             onCardDelete = {handleCardDelete}
-                            cards = {cards}
+                            cards = {cards.data}
                             component={Main}
                             isLoggedIn={isLoggedIn}
                         />

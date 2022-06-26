@@ -1,19 +1,18 @@
 class Api {
-    constructor({ baseUrl, headers}) {
-        this._headers = headers;
+    constructor({ baseUrl }) {
         this._baseUrl = baseUrl;
     }
 
     getProfile() {
         return fetch(`${this._baseUrl}/users/me`, {
-            headers: this._headers
+            headers: this._setHeaders()
         })
         .then(this._checkResponse)
     }
 
     getInitialCards() {
         return fetch(`${this._baseUrl}/cards`, {
-            headers: this._headers
+            headers: this._setHeaders()
         })
         .then(this._checkResponse)
     }
@@ -21,7 +20,7 @@ class Api {
     editProfile(name, about) {
         return fetch(`${this._baseUrl}/users/me`, {
             method: "PATCH",
-            headers: this._headers,
+            headers: this._setHeaders(),
             body: JSON.stringify({
                 name,
                 about
@@ -33,7 +32,7 @@ class Api {
     addCard(name, link) {
         return fetch(`${this._baseUrl}/cards`, {
             method: "POST",
-            headers: this._headers,
+            headers: this._setHeaders(),
             body: JSON.stringify({
                 name,
                 link
@@ -45,7 +44,7 @@ class Api {
     deleteCard(id) {
         return fetch(`${this._baseUrl}/cards/${id}`, {
             method: "DELETE",
-            headers: this._headers
+            headers: this._setHeaders()
         })
         .then(this._checkResponse)
     }
@@ -53,7 +52,7 @@ class Api {
     changeLikeCardStatus(id, isLiked) {
         return fetch(`${this._baseUrl}/cards/${id}/likes`, {
             method: isLiked ? "PUT" : "DELETE",
-            headers: this._headers
+            headers: this._setHeaders()
         })
         .then(this._checkResponse)
     }
@@ -61,7 +60,7 @@ class Api {
     editAvatar(avatar) {
         return fetch(`${this._baseUrl}/users/me/avatar`, {
             method: "PATCH",
-            headers: this._headers,
+            headers: this._setHeaders(),
             body: JSON.stringify({
                 avatar
             })
@@ -69,17 +68,20 @@ class Api {
         .then(this._checkResponse)
     }
 
+    _setHeaders() {
+        return {
+            'Authorization': `Bearer ${localStorage.getItem("jwt")}`,
+            'Content-Type': 'application/json'
+        }
+      }
+
     _checkResponse(res) {
         return res.ok ? res.json() : Promise.reject(res.status);
     }
 }
 
 const api = new Api({
-    baseUrl: 'https://api.mesto.willframe.nomoredomains.xyz',
-    headers: {
-        authorization: 'fc1e8853-6135-4999-aec3-43dddd019696',
-        'Content-Type': 'application/json'
-    }
+    baseUrl: 'https://api.mesto.willframe.nomoredomains.xyz'
 });
 
 export default api;
